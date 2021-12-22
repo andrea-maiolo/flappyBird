@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
         if(birdTopSpace >= 55){
             birdTopSpace -= jumpForce
             bird.style.top = birdTopSpace + "px"
-            console.log(birdTopSpace)
         }
     }
 
@@ -38,8 +37,12 @@ document.addEventListener('DOMContentLoaded', ()=>{
                 display.removeChild(obstacle)
                 clearInterval(timerObs)
             }
-            if(birdTopSpace === 400){
-                // display.removeChild(obstacle)
+            //bird hit an obstacle or hit the ground
+            if(obstacleLeft> 115 && obstacleLeft <200 && birdTopSpace >=277){
+                clearInterval(timerObs)
+                gameOver()
+            }
+            if(birdTopSpace === 408){
                 clearInterval(timerObs)
                 gameOver()
             }
@@ -51,9 +54,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
     createObstacles()
 
     function gameOver() {
+        isGameOver  =true
         clearInterval(timerStart)
         clearTimeout(gameTimeOut)
-        isGameOver  =true
         document.removeEventListener('click',jump)
         console.log("game over")
     }
@@ -63,13 +66,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
             birdTopSpace += gravity
             bird.style.left = birdLeftSpace + "px"
             bird.style.top = birdTopSpace + "px"
+            console.log(birdTopSpace)
     }}
 
     let timerStart = setInterval(startGame,25);
 
 })
-
-//the function for game over are complet
-//the game stops correctly we
-//just need to add the logic for the collision
-//couldn't finish in the morning because police come and interupted me 
