@@ -21,24 +21,32 @@ document.addEventListener('DOMContentLoaded', ()=>{
     document.addEventListener('click', jump)
 
     const createObstacles = function() {
-        let obstacleLeft = 500
-        let randomHeight = Math.random()* 80
+        let obstacleLeft = 475
+        let randomHeight = Math.floor(Math.random()* 80)
         let obstacleBottom = randomHeight
         let obstacle = document.createElement('div');
+        let topObstacle = document.createElement('div');
         obstacle.classList.add('obstacle')
+        topObstacle.classList.add('topObstacle')
         obstacle.style.left = obstacleLeft + "px"
+        topObstacle.style.left = obstacleLeft + "px"
         obstacle.style.bottom = obstacleBottom + "px"
+        topObstacle.style.bottom = obstacleBottom + 360 +"px"
         display.appendChild(obstacle)
-        let timerObs = setInterval(()=>{
+        display.appendChild(topObstacle)
+        let timerObs = setInterval(movingObstacle,20)
+        function movingObstacle(){
             let moving = 2
             obstacle.style.left = (obstacleLeft -= moving) + "px"
+            topObstacle.style.left = (obstacleLeft -= moving)+ "px"
 
             if(obstacleLeft<=3){
                 display.removeChild(obstacle)
+                display.removeChild(topObstacle)
                 clearInterval(timerObs)
             }
             //bird hit an obstacle or hit the ground
-            if(obstacleLeft> 115 && obstacleLeft <200 && birdTopSpace >=277){
+            if((obstacleLeft> 115 && obstacleLeft <200) && (birdTopSpace >= (360 - obstacleBottom) || birdTopSpace <= ((360 + obstacleBottom) - 280))){
                 clearInterval(timerObs)
                 gameOver()
             }
@@ -46,15 +54,15 @@ document.addEventListener('DOMContentLoaded', ()=>{
                 clearInterval(timerObs)
                 gameOver()
             }
-        },20)
-        gameTimeOut = setTimeout(createObstacles,3000)
+        }
+        gameTimeOut = setTimeout(createObstacles,1500)
 
     }
 
     createObstacles()
 
     function gameOver() {
-        isGameOver  =true
+        isGameOver =true
         clearInterval(timerStart)
         clearTimeout(gameTimeOut)
         document.removeEventListener('click',jump)
