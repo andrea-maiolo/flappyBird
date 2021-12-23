@@ -5,16 +5,16 @@ document.addEventListener('DOMContentLoaded', ()=>{
     const sky = document.querySelector('.sky');
 
     let birdLeftSpace = 150
-    let birdTopSpace = 250
+    let birdBottomSpace = 150
     let gravity =2
     let jumpForce = 50
     let isGameOver = false
     let gameTimeOut
 
     const jump = function(){
-        if(birdTopSpace >= 55){
-            birdTopSpace -= jumpForce
-            bird.style.top = birdTopSpace + "px"
+        if(birdBottomSpace <= 350){
+            birdBottomSpace += jumpForce
+            bird.style.bottom = birdBottomSpace + "px"
         }
     }
 
@@ -46,11 +46,14 @@ document.addEventListener('DOMContentLoaded', ()=>{
                 clearInterval(timerObs)
             }
             //bird hit an obstacle or hit the ground
-            if((obstacleLeft> 115 && obstacleLeft <200) && (birdTopSpace >= (360 - obstacleBottom) || birdTopSpace <= ((360 + obstacleBottom) - 280))){
+            if((obstacleLeft> 115 && obstacleLeft <200) &&
+                //where 45 is the height of the bird
+             (birdBottomSpace <= (obstacleBottom +45)
+             || birdBottomSpace >= ((360 + obstacleBottom) - 191))){
                 clearInterval(timerObs)
                 gameOver()
             }
-            if(birdTopSpace === 408){
+            if(birdBottomSpace === 0){
                 clearInterval(timerObs)
                 gameOver()
             }
@@ -71,10 +74,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
     
     const startGame = function() {
         if(!isGameOver){
-            birdTopSpace += gravity
+            birdBottomSpace -= gravity
             bird.style.left = birdLeftSpace + "px"
-            bird.style.top = birdTopSpace + "px"
-            console.log(birdTopSpace)
+            bird.style.bottom = birdBottomSpace + "px"
     }}
 
     let timerStart = setInterval(startGame,25);

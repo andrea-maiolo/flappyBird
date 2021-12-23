@@ -24,7 +24,7 @@
 #bird{
     width: 58px;
     height: 45px;
-    position: relative;
+    position: absolute;
     background-image: url(flappy-bird.png);
 }
 
